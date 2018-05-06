@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import logo from './logo.svg';
 import './App.css';
 import './components/PodcastIcon.js';
 import PodcastIcon from './components/PodcastIcon.js';
@@ -18,9 +17,50 @@ class App extends Component {
 
   componentWillMount() {
     const component = this;
-    axios('https://itunes.apple.com/search?entity=podcast&term=crooked+media')
-      .then(({ data }) => {
-        component.setState({ podcasts: data.results })
+    const podcasts = [
+      'pod save america',
+      'lovett leave it',
+      'laser time',
+      'talking simpsons',
+      'what a cartoon',
+      // 'fictional',
+      'hidden brain',
+      'reply all',
+      // 'syntax',
+      // 'this american life',
+      'wait wait npr'
+    ];
+    const podcastIds = [
+      // 'pod save america',
+      // 'lovett leave it',
+      // 'laser time',
+      // 'talking simpsons',
+      // 'what a cartoon',
+      // 'fictional',
+      // 'hidden brain',
+      // 'reply all',
+      // 'syntax',
+      // 'this american life',
+      // 'wait wait npr',
+      1270922382,
+      1192761536,
+      1216346463,
+      468086830,
+      1050103463,
+      983913299,
+      1358186691,
+      1028908750,
+      941907967,
+    ];
+    const podcastCalls = podcasts.map((podcastName) => axios(`https://itunes.apple.com/search?entity=podcast&attribute=titleTerm&term=${podcastName.split(' ').join('+')}`));
+    // axios('https://itunes.apple.com/search?entity=podcast&term=npr')
+    Promise.all(podcastCalls)
+      .then((responses) => {
+        // console.log(responses);
+        responses.forEach(({ data }) => {
+          const podcasts = Array.from(component.state.podcasts).concat(data.results);
+          component.setState({ podcasts });
+        })
       })
       .catch(console.error);
   }
@@ -28,21 +68,15 @@ class App extends Component {
   render() {
     const { name, podcasts } = this.state;
     const podcastComponents = podcasts.map((podcast) => {
-      return (<PodcastIcon imageUrl={podcast.artworkUrl600} />);
+      console.log(podcast.collectionId);
+      return (<PodcastIcon key={podcast.trackId} imageUrl={podcast.artworkUrl600} />);
     });
 
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">{name}</h1>
-        </header>
-        <ul class="podcasts">
+        <ul className="podcasts">
           { podcastComponents }
         </ul>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
       </div>
     );
   }
