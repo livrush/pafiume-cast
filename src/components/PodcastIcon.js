@@ -1,9 +1,9 @@
 import React from 'react';
 
-function PodcastIcon({ imageUrl }) {
+function PodcastIcon({ artistName, imageUrl }) {
   return (
     <li className="podcast-icon">
-      <img src={imageUrl} alt="" />
+      <img src={imageUrl} alt={artistName} />
     </li>
   )
 }
