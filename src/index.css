@@ -4,8 +4,15 @@ body {
   font-family: sans-serif;
 }
 
+.podcasts {
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .podcast-icon {
   height: 25vw;
+  list-style: none;
   width: 25vw;
   background: blue;
 }
