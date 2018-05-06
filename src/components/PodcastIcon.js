@@ -1,9 +1,10 @@
 import React from 'react';
 
-function PodcastIcon(props) {
+function PodcastIcon({ imageUrl }) {
+  console.warn(imageUrl);
   return (
     <div className="podcast-icon">
-      <img src="https://picsum.photos/200/200?image=0" />
+      <img src={imageUrl} alt="" />
     </div>
   )
 }

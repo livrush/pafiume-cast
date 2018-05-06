@@ -12,7 +12,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <PodcastIcon />
+        <PodcastIcon imageUrl="https://picsum.photos/400/400" />
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
