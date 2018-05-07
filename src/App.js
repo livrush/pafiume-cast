@@ -36,7 +36,7 @@ class App extends Component {
   }
 
   render() {
-    const { name, podcasts } = this.state;
+    const { podcasts } = this.state;
     const { test } = this;
     const podcastComponents = podcasts.map((podcast) => {
       return (<PodcastIcon key={podcast.trackId} podcast={podcast} handleClick={test} />);
