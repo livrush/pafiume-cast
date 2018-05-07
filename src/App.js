@@ -18,12 +18,12 @@ class App extends Component {
   componentWillMount() {
     const component = this;
     const podcasts = [
+      // 'retronauts',
       'pod save america',
       'lovett leave it',
       'laser time',
       'talking simpsons',
       'what a cartoon',
-      // 'retronauts',
       'hidden brain',
       'reply all',
       'syntax tasty',
@@ -34,15 +34,23 @@ class App extends Component {
       'ui breakfast',
       'ask me another',
       'invisibilia',
-    ];
+      'planet money',
+      'the habitat gimlet',
+      'drawn: the story of animation',
 
-    const podcastCalls = podcasts.map((podcastName) => axios(`https://itunes.apple.com/search?entity=podcast&attribute=titleTerm&term=${podcastName.split(' ').join('+')}`));
-    // axios('https://itunes.apple.com/search?entity=podcast&term=npr')
-    Promise.all(podcastCalls)
-      .then((responses) => responses.reduce((acc, { data }) => acc.concat(data.results), []))
-      .then(podcasts => podcasts.sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate)))
-      .then((podcasts) => component.setState({ podcasts }))
-      .catch(console.error);
+    ];
+    const appleAPI = 'https://itunes.apple.com/search?entity=podcast&attribute=titleTerm&term='
+    axios('/podcasts.txt')
+      .then(({ data }) => data.split('\n'))
+      .then(podcastNames => {
+        const podcastCalls = podcastNames.map((podcastName) => axios(`${appleAPI}${podcastName.split(' ').join('+')}`));
+        // axios('https://itunes.apple.com/search?entity=podcast&term=npr')
+        Promise.all(podcastCalls)
+          .then((responses) => responses.reduce((acc, { data }) => acc.concat(data.results), []))
+          .then(podcasts => podcasts.sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate)))
+          .then((podcasts) => component.setState({ podcasts }))
+          .catch(console.error);
+      })
   }
 
   render() {
