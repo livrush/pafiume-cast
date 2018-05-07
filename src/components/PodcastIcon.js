@@ -1,9 +1,9 @@
 import React from 'react';
 
-function PodcastIcon({ artistName, imageUrl }) {
+function PodcastIcon({ podcast, handleClick }) {
   return (
-    <li className="podcast-icon">
-      <img src={imageUrl} alt={artistName} />
+    <li className="podcast-icon" onClick={() => handleClick(podcast)}>
+      <img src={podcast.artworkUrl600} alt={podcast.artistName} />
     </li>
   )
 }

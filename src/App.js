@@ -15,30 +15,12 @@ class App extends Component {
     };
   }
 
+  test(value) {
+    console.log(value);
+  }
+
   componentWillMount() {
     const component = this;
-    const podcasts = [
-      // 'retronauts',
-      'pod save america',
-      'lovett leave it',
-      'laser time',
-      'talking simpsons',
-      'what a cartoon',
-      'hidden brain',
-      'reply all',
-      'syntax tasty',
-      'dtr tinder',
-      'front end happy hour',
-      'wait wait don\'t tell me',
-      'vgmpire',
-      'ui breakfast',
-      'ask me another',
-      'invisibilia',
-      'planet money',
-      'the habitat gimlet',
-      'drawn: the story of animation',
-
-    ];
     const appleAPI = 'https://itunes.apple.com/search?entity=podcast&attribute=titleTerm&term='
     axios('/podcasts.txt')
       .then(({ data }) => data.split('\n'))
@@ -55,9 +37,9 @@ class App extends Component {
 
   render() {
     const { name, podcasts } = this.state;
+    const { test } = this;
     const podcastComponents = podcasts.map((podcast) => {
-      console.log(podcast.releaseDate);
-      return (<PodcastIcon key={podcast.trackId} imageUrl={podcast.artworkUrl600} />);
+      return (<PodcastIcon key={podcast.trackId} podcast={podcast} handleClick={test} />);
     });
 
     return (
