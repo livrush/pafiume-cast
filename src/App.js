@@ -23,52 +23,32 @@ class App extends Component {
       'laser time',
       'talking simpsons',
       'what a cartoon',
-      // 'fictional',
+      // 'retronauts',
       'hidden brain',
       'reply all',
-      // 'syntax',
-      // 'this american life',
-      'wait wait npr'
+      'syntax tasty',
+      'dtr tinder',
+      'front end happy hour',
+      'wait wait don\'t tell me',
+      'vgmpire',
+      'ui breakfast',
+      'ask me another',
+      'invisibilia',
     ];
-    const podcastIds = [
-      // 'pod save america',
-      // 'lovett leave it',
-      // 'laser time',
-      // 'talking simpsons',
-      // 'what a cartoon',
-      // 'fictional',
-      // 'hidden brain',
-      // 'reply all',
-      // 'syntax',
-      // 'this american life',
-      // 'wait wait npr',
-      1270922382,
-      1192761536,
-      1216346463,
-      468086830,
-      1050103463,
-      983913299,
-      1358186691,
-      1028908750,
-      941907967,
-    ];
+
     const podcastCalls = podcasts.map((podcastName) => axios(`https://itunes.apple.com/search?entity=podcast&attribute=titleTerm&term=${podcastName.split(' ').join('+')}`));
     // axios('https://itunes.apple.com/search?entity=podcast&term=npr')
     Promise.all(podcastCalls)
-      .then((responses) => {
-        // console.log(responses);
-        responses.forEach(({ data }) => {
-          const podcasts = Array.from(component.state.podcasts).concat(data.results);
-          component.setState({ podcasts });
-        })
-      })
+      .then((responses) => responses.reduce((acc, { data }) => acc.concat(data.results), []))
+      .then(podcasts => podcasts.sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate)))
+      .then((podcasts) => component.setState({ podcasts }))
       .catch(console.error);
   }
 
   render() {
     const { name, podcasts } = this.state;
     const podcastComponents = podcasts.map((podcast) => {
-      console.log(podcast.collectionId);
+      console.log(podcast.releaseDate);
       return (<PodcastIcon key={podcast.trackId} imageUrl={podcast.artworkUrl600} />);
     });
 
