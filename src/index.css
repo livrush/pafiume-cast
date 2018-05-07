@@ -12,10 +12,11 @@ body {
 }
 
 .podcast-icon {
-  height: 25vw;
+  height: 20vw;
+  width: 20vw;
   list-style: none;
-  width: 25vw;
   background: blue;
+  cursor: pointer;
 }
 
 .podcast-icon img {
