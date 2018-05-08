@@ -1,4 +1,12 @@
 https://www.npr.org/rss/podcast.php?id=510308
+https://www.npr.org/rss/podcast.php?id=510289
+https://www.npr.org/rss/podcast.php?id=344098539
+https://www.npr.org/rss/podcast.php?id=510299
+https://www.npr.org/rss/podcast.php?id=510307
 http://feeds.feedburner.com/pod-save-america?format=xml
 http://feeds.feedburner.com/lovett-or-leave-it?format=xml
 http://talkingsimpsons.libsyn.com/rss
+http://whatacartoonfeed.libsyn.com/rss
+http://feeds.gimletmedia.com/hearreplyall?format=xml
+http://feed.syntax.fm/rss
+http://feeds.soundcloud.com/users/soundcloud:users:206137365/sounds.rss
