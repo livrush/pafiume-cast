@@ -5,6 +5,7 @@ import Parser from 'rss-parser';
 import './App.css';
 import './components/PodcastIcon.js';
 import PodcastIcon from './components/PodcastIcon.js';
+import PodcastControls from './components/PodcastControls.js';
 
 
 class App extends Component {
@@ -51,6 +52,7 @@ class App extends Component {
         <ul className="podcasts">
           { podcastComponents }
         </ul>
+        <PodcastControls />
       </div>
     );
   }

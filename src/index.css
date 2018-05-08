@@ -9,17 +9,45 @@ body {
   display: flex;
   flex-wrap: wrap;
   margin: 0;
+  padding-bottom: 20vw;
 }
 
+.podcast-control,
 .podcast-icon {
   height: 20vw;
   width: 20vw;
   list-style: none;
-  background: blue;
   cursor: pointer;
 }
 
 .podcast-icon img {
   height: 100%;
   width: 100%;
+}
+
+.podcast-controls {
+  background: red;
+  bottom: 0;
+  display: flex;
+  height: 20vw;
+  justify-content: flex-end;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  width: 100vw;
+}
+
+.podcast-control {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 6vw;
+}
+
+.podcast-control.play {
+  background: green;
+}
+
+.podcast-control.time {
+  background: gold;
 }
