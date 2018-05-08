@@ -38,18 +38,6 @@ class App extends Component {
           // .then(console.log);
           // .catch(console.error);
       })
-
-    // axios('/podcasts.txt')
-    //   .then(({ data }) => data.split('\n'))
-    //   .then(podcastNames => {
-    //     const podcastCalls = podcastNames.map((podcastName) => axios(`${appleAPI}${podcastName.split(' ').join('+')}`));
-    //     // axios('https://itunes.apple.com/search?entity=podcast&term=npr')
-    //     Promise.all(podcastCalls)
-    //       .then((responses) => responses.reduce((acc, { data }) => acc.concat(data.results), []))
-    //       .then(podcasts => podcasts.sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate)))
-    //       .then((podcasts) => component.setState({ podcasts }))
-    //       .catch(console.error);
-    //   })
   }
 
   render() {
