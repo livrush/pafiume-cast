@@ -16,6 +16,8 @@ class App extends Component {
       podcasts: [],
       player: null,
     };
+    this.onPlayTrack = this.onPlayTrack.bind(this);
+    this.onPauseTrack = this.onPauseTrack.bind(this);
   }
 
   test(value) {
@@ -42,13 +44,22 @@ class App extends Component {
       })
   }
 
-  componentDidMount() {
+  onPlayTrack() {
+    const { player } = this.state;
+    console.log('PLAY', player);
+    if (player) {
+      player.play();
+    }
+  }
 
+  onPauseTrack() {
+    const { player } = this.state;
+    player.pause();
   }
 
   render() {
     const { podcasts } = this.state;
-    const { test } = this;
+    const { test, onPauseTrack, onPlayTrack } = this;
     const podcastComponents = podcasts.map((podcast) => {
       return (<PodcastIcon key={podcast.isoDate} podcast={podcast} handleClick={test} />);
     });
@@ -58,7 +69,7 @@ class App extends Component {
         <ul className="podcasts">
           { podcastComponents }
         </ul>
-        <PodcastControls />
+        <PodcastControls onPauseTrack={onPauseTrack} onPlayTrack={onPlayTrack} />
       </div>
     );
   }
@@ -81,7 +92,7 @@ function initPlayer(episodes, component) {
   const player = new Howl({
     src: tracks,
   });
-  player.play();
+  // player.play();
   component.setState({ player });
   return episodes;
 }

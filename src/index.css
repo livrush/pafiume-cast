@@ -42,6 +42,7 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 6vw;
+  color: white;
 }
 
 .podcast-control.play {
@@ -49,5 +50,5 @@ body {
 }
 
 .podcast-control.time {
-  background: gold;
+  background: orange;
 }
