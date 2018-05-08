@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Parser from 'rss-parser';
 import { Howl } from 'howler';
+import colors from 'pafiume-colors';
 
 import './App.css';
 import './components/PodcastIcon.js';
 import PodcastIcon from './components/PodcastIcon.js';
 import PodcastControls from './components/PodcastControls.js';
+
+console.log(colors);
 
 class App extends Component {
   constructor() {
@@ -16,6 +19,7 @@ class App extends Component {
       podcasts: [],
       player: null,
       playing: false,
+      color: colors.random(),
     };
     this.toggleTrackPlay = this.toggleTrackPlay.bind(this);
   }
@@ -26,7 +30,14 @@ class App extends Component {
 
   componentWillMount() {
     const component = this;
+    const { color } = component.state;
+    console.log(color)
     component.getPodcasts();
+    const body = document.getElementsByTagName('body')[0];
+    body.style['background-color'] = color.hues[0];
+    body.style['background-image'] = `linear-gradient(45deg, ${color.hues[1]} 25%, transparent 25%), linear-gradient(-45deg, ${color.hues[1]} 25%, transparent 25%), linear-gradient(45deg, transparent 75%, ${color.hues[1]} 75%), linear-gradient(-45deg, transparent 75%, ${color.hues[1]} 75%)`;
+    body.style['background-size'] = '20vw 20vw';
+    body.style['background-position'] = '0 0, 0 10vw, 10vw -10vw, -10vw 0px';
   }
 
   getPodcasts() {
