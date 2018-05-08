@@ -3,17 +3,21 @@ import React from 'react';
 function PodcastTogglePlay({ togglePlay, playing }) {
   function playState(playing) {
     if (playing) {
-      return (<i className="fas fa-stop"></i>);
+      return (
+        <li className="podcast-control stop" onClick={togglePlay}>
+          <i className="fas fa-stop"></i>
+        </li>
+      );
     } else {
-      return (<i className="fas fa-play"></i>);
+      return (
+        <li className="podcast-control play" onClick={togglePlay}>
+          <i className="fas fa-play"></i>
+        </li>
+      );
     }
   }
 
-  return (
-    <li className="podcast-control play" onClick={togglePlay}>
-      { playState(playing) }
-    </li>
-  )
+  return playState(playing);
 }
 
 export default PodcastTogglePlay;
