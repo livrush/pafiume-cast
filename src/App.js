@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Parser from 'rss-parser';
+
 import './App.css';
 import './components/PodcastIcon.js';
 import PodcastIcon from './components/PodcastIcon.js';
-
 
 
 class App extends Component {
@@ -20,6 +21,12 @@ class App extends Component {
   }
 
   componentWillMount() {
+    let parser = new Parser();
+    const CORS_PROXY = "https://cors-anywhere.herokuapp.com/"
+
+    parser.parseURL(CORS_PROXY + 'https://www.npr.org/rss/podcast.php?id=510308')
+      .then(console.log);
+
     const component = this;
     const appleAPI = 'https://itunes.apple.com/search?entity=podcast&attribute=titleTerm&term='
     axios('/podcasts.txt')
