@@ -1,0 +1,4 @@
+https://www.npr.org/rss/podcast.php?id=510308
+http://feeds.feedburner.com/pod-save-america?format=xml
+http://feeds.feedburner.com/lovett-or-leave-it?format=xml
+http://talkingsimpsons.libsyn.com/rss
