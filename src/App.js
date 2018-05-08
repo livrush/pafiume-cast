@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Parser from 'rss-parser';
-import {Howl, Howler} from 'howler';
+import { Howl } from 'howler';
 
 import './App.css';
 import './components/PodcastIcon.js';
@@ -15,9 +15,9 @@ class App extends Component {
       name: 'Pafiume-Cast',
       podcasts: [],
       player: null,
+      playing: false,
     };
-    this.onPlayTrack = this.onPlayTrack.bind(this);
-    this.onPauseTrack = this.onPauseTrack.bind(this);
+    this.toggleTrackPlay = this.toggleTrackPlay.bind(this);
   }
 
   test(value) {
@@ -28,7 +28,6 @@ class App extends Component {
     let parser = new Parser();
     const CORS_PROXY = "https://cors-anywhere.herokuapp.com/"
     const component = this;
-    const appleAPI = 'https://itunes.apple.com/search?entity=podcast&attribute=titleTerm&term='
     axios('/rss-feeds.txt')
       .then(({ data }) => data.split('\n'))
       .then(rssFeedUrls => {
@@ -44,22 +43,21 @@ class App extends Component {
       })
   }
 
-  onPlayTrack() {
-    const { player } = this.state;
-    console.log('PLAY', player);
+  toggleTrackPlay() {
+    const { player, playing } = this.state;
     if (player) {
-      player.play();
+      if (playing) {
+        player.pause();
+      } else {
+        player.play();
+      }
     }
-  }
-
-  onPauseTrack() {
-    const { player } = this.state;
-    player.pause();
+    this.setState({ playing: !playing });
   }
 
   render() {
-    const { podcasts } = this.state;
-    const { test, onPauseTrack, onPlayTrack } = this;
+    const { podcasts, playing } = this.state;
+    const { test, toggleTrackPlay } = this;
     const podcastComponents = podcasts.map((podcast) => {
       return (<PodcastIcon key={podcast.isoDate} podcast={podcast} handleClick={test} />);
     });
@@ -69,7 +67,7 @@ class App extends Component {
         <ul className="podcasts">
           { podcastComponents }
         </ul>
-        <PodcastControls onPauseTrack={onPauseTrack} onPlayTrack={onPlayTrack} />
+        <PodcastControls playing={playing} togglePlay={toggleTrackPlay} />
       </div>
     );
   }
@@ -86,13 +84,17 @@ export default App;
 // }
 
 function initPlayer(episodes, component) {
-  console.log(episodes);
   const CORS_PROXY = "https://cors-anywhere.herokuapp.com/"
   const tracks = episodes.map(episode => CORS_PROXY + episode.enclosure.url);
   const player = new Howl({
     src: tracks,
+    onload() {
+      console.log('load');
+    },
+    onplay() {
+      console.log('PLAYING');
+    },
   });
-  // player.play();
   component.setState({ player });
   return episodes;
 }
