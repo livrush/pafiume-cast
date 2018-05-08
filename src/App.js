@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Parser from 'rss-parser';
+import {Howl, Howler} from 'howler';
 
 import './App.css';
 import './components/PodcastIcon.js';
 import PodcastIcon from './components/PodcastIcon.js';
 import PodcastControls from './components/PodcastControls.js';
-
 
 class App extends Component {
   constructor() {
@@ -14,6 +14,7 @@ class App extends Component {
     this.state = {
       name: 'Pafiume-Cast',
       podcasts: [],
+      player: null,
     };
   }
 
@@ -34,10 +35,15 @@ class App extends Component {
           .then(responses => responses.map(response => { response.items = response.items.slice(0, 5); return response; }))
           .then(responses => responses.map(fillOutEpisodesInfo))
           .then(responses => responses.reduce((acc, res) => acc.concat(res), []))
-          .then(podcasts => podcasts.sort((a, b) => new Date(b.isoDate) - new Date(a.isoDate)))
+          .then(episodes => episodes.sort((a, b) => new Date(b.isoDate) - new Date(a.isoDate)))
+          .then(episodes => initPlayer(episodes, component))
           .then(podcasts => component.setState({ podcasts }))
           .catch(console.error);
       })
+  }
+
+  componentDidMount() {
+
   }
 
   render() {
@@ -67,6 +73,18 @@ export default App;
 //   return episodes;
 //   response => { response.items = response.items.slice(0, 5); return response; }
 // }
+
+function initPlayer(episodes, component) {
+  console.log(episodes);
+  const CORS_PROXY = "https://cors-anywhere.herokuapp.com/"
+  const tracks = episodes.map(episode => CORS_PROXY + episode.enclosure.url);
+  const player = new Howl({
+    src: tracks,
+  });
+  player.play();
+  component.setState({ player });
+  return episodes;
+}
 
 function fillOutEpisodesInfo(podcast) {
   const episodes = podcast.items.slice(0);
