@@ -34,9 +34,8 @@ class App extends Component {
           .then(responses => responses.map(fillOutEpisodesInfo))
           .then(responses => responses.reduce((acc, res) => acc.concat(res), []))
           .then(podcasts => podcasts.sort((a, b) => new Date(b.isoDate) - new Date(a.isoDate)))
-          .then(podcasts => component.setState({ podcasts }));
-          // .then(console.log);
-          // .catch(console.error);
+          .then(podcasts => component.setState({ podcasts }))
+          .catch(console.error);
       })
   }
 
@@ -59,10 +58,12 @@ class App extends Component {
 
 export default App;
 
+// TODO: implement this to hide logic in call to rss feeds
 // function limitEpisodes(podcast) {
 //   const episodes = podcast.items.slice();
 
 //   return episodes;
+//   response => { response.items = response.items.slice(0, 5); return response; }
 // }
 
 function fillOutEpisodesInfo(podcast) {
