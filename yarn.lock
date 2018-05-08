@@ -4902,6 +4902,10 @@ package-json@^4.0.0:
     registry-url "^3.0.3"
     semver "^5.1.0"
 
+pafiume-colors@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/pafiume-colors/-/pafiume-colors-0.1.2.tgz#8275e730e806672c78e72fa3006e8150155030f0"
+
 pako@~1.0.5:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.6.tgz#0101211baa70c4bca4a0f63f2206e97b7dfaf258"
