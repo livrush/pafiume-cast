@@ -25,6 +25,11 @@ class App extends Component {
   }
 
   componentWillMount() {
+    const component = this;
+    component.getPodcasts();
+  }
+
+  getPodcasts() {
     let parser = new Parser();
     const CORS_PROXY = "https://cors-anywhere.herokuapp.com/"
     const component = this;
