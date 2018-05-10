@@ -21,6 +21,8 @@ class App extends Component {
       color: colors.random(),
       currentEpisode: {
         index: 0,
+        name: '',
+        title: '',
         url: null,
       },
     };
@@ -54,9 +56,11 @@ class App extends Component {
           .then(podcasts => podcasts.sort((a, b) => new Date(b.isoDate) - new Date(a.isoDate)))
           .then(podcasts => component.setState({
             podcasts,
-            episodes: podcasts.map(episode => episode.enclosure.url),
+            episodes: podcasts,
             currentEpisode: {
               index: 0,
+              name: podcasts[0].name,
+              title: podcasts[0].title,
               url: podcasts[0].enclosure.url,
             },
           }))
@@ -71,20 +75,24 @@ class App extends Component {
     const { episodes, currentEpisode, player, playing } = component.state;
     if (player) player.unload();
     const episodeIndex = index ? index : currentEpisode.index + 1;
-    const track = episodes[episodeIndex];
-    component.setState({ buffering: true });
+    const episode = episodes[episodeIndex]
+    const track = episode.enclosure.url;
+    component.setState({
+      buffering: true,
+      currentEpisode: {
+        index: episodeIndex,
+        name: episode.name,
+        title: episode.title,
+        url: track,
+      },
+    });
     const newPlayer = new Howl({
       src: [ CORS_PROXY + track ],
+      // html5: true,
       autoplay: playing,
       onload() {
+        component.setState({ buffering: false });
         console.warn('LOADED');
-        component.setState({
-          buffering: false,
-          currentEpisode: {
-            index: episodeIndex,
-            url: track,
-          },
-        });
       },
       onloaderror(id, error) {
         console.error('LOAD ERROR:', error);
@@ -123,8 +131,8 @@ class App extends Component {
   }
 
   render() {
-    const { buffering, podcasts, playing } = this.state;
-    const { test, toggleTrackPlay, onClickPodcast } = this;
+    const { buffering, currentEpisode, podcasts, playing } = this.state;
+    const { toggleTrackPlay, onClickPodcast } = this;
     const podcastComponents = podcasts.map((podcast) => {
       return (<PodcastIcon key={podcast.guid} podcast={podcast} handleClick={onClickPodcast} />);
     });
@@ -134,7 +142,7 @@ class App extends Component {
         <ul className="podcasts">
           { podcastComponents }
         </ul>
-        <PodcastControls buffering={buffering} playing={playing} togglePlay={toggleTrackPlay} />
+        <PodcastControls episode={currentEpisode} buffering={buffering} playing={playing} togglePlay={toggleTrackPlay} />
       </div>
     );
   }
@@ -154,7 +162,7 @@ function fillOutEpisodesInfo(podcast) {
   const episodes = podcast.items.slice(0);
   episodes.map(episode => {
     episode.link = podcast.link;
-    episode.title = podcast.title;
+    episode.name = podcast.title;
     episode.feedUrl = podcast.feedUrl;
     episode.description = podcast.description;
     episode.itunesPodcast = podcast.itunes;
