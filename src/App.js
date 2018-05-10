@@ -59,9 +59,39 @@ class App extends Component {
               url: podcasts[0].enclosure.url,
             },
           }))
-          .then(episodes => initPlayer(component))
+          .then(episodes => this.initPlayer(0))
           .catch(console.error);
       })
+  }
+
+  initPlayer(index) {
+    const component = this;
+    const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
+    const { episodes, currentEpisode } = component.state;
+    const episodeIndex = index ? index : currentEpisode.index + 1;
+    const track = episodes[episodeIndex];
+    // const tracks = component.state.episodes.map(episode => CORS_PROXY + episode);
+    const player = new Howl({
+      src: [ CORS_PROXY + track ],
+      onload() {
+        console.warn('LOADED');
+        component.setState({
+          currentEpisode: {
+            index: episodeIndex,
+            url: track,
+          },
+        });
+      },
+      onplay() {
+        console.log('PLAYING');
+      },
+      onend() {
+        console.log('ENDED');
+        component.initPlayer(component, episodeIndex + 1);
+      },
+    });
+    component.setState({ player });
+    return component;
   }
 
   toggleTrackPlay() {
@@ -105,35 +135,6 @@ export default App;
 //   return episodes;
 //   response => { response.items = response.items.slice(0, 5); return response; }
 // }
-
-function initPlayer(component, index) {
-  const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
-  const { episodes, currentEpisode } = component.state;
-  const episodeIndex = index ? index : currentEpisode.index + 1;
-  const track = episodes[episodeIndex];
-  // const tracks = component.state.episodes.map(episode => CORS_PROXY + episode);
-  const player = new Howl({
-    src: [ CORS_PROXY + track ],
-    onload() {
-      console.warn('LOADED');
-      component.setState({
-        currentEpisode: {
-          index: episodeIndex,
-          url: track,
-        },
-      });
-    },
-    onplay() {
-      console.log('PLAYING');
-    },
-    onend() {
-      console.log('ENDED');
-      initPlayer(component, episodeIndex + 1);
-    },
-  });
-  component.setState({ player });
-  return component;
-}
 
 function fillOutEpisodesInfo(podcast) {
   const episodes = podcast.items.slice(0);
