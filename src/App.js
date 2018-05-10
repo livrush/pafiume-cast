@@ -88,6 +88,8 @@ class App extends Component {
     });
     const newPlayer = new Howl({
       src: [ CORS_PROXY + track ],
+      // TODO: figure out what's up with the error that happens when you turn on html5 //
+      // ! this is what will allow buffering //
       // html5: true,
       autoplay: playing,
       onload() {
