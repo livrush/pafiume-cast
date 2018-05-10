@@ -76,11 +76,13 @@ class App extends Component {
     this.setState({ playing: !playing });
   }
 
+  onClickPodcast() {}
+
   render() {
     const { podcasts, playing } = this.state;
     const { test, toggleTrackPlay } = this;
     const podcastComponents = podcasts.map((podcast) => {
-      return (<PodcastIcon key={podcast.isoDate} podcast={podcast} handleClick={test} />);
+      return (<PodcastIcon key={podcast.guid} podcast={podcast} handleClick={test} />);
     });
 
     return (
@@ -104,20 +106,29 @@ export default App;
 //   response => { response.items = response.items.slice(0, 5); return response; }
 // }
 
-function initPlayer(component) {
-  const CORS_PROXY = "https://cors-anywhere.herokuapp.com/"
-  const tracks = component.state.episodes.map(episode => CORS_PROXY + episode);
+function initPlayer(component, index) {
+  const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
+  const { episodes, currentEpisode } = component.state;
+  const episodeIndex = index ? index : currentEpisode.index + 1;
+  const track = episodes[episodeIndex];
+  // const tracks = component.state.episodes.map(episode => CORS_PROXY + episode);
   const player = new Howl({
-    src: tracks,
+    src: [ CORS_PROXY + track ],
     onload() {
-      console.log('load');
-      console.log(component.state);
+      console.warn('LOADED');
+      component.setState({
+        currentEpisode: {
+          index: episodeIndex,
+          url: track,
+        },
+      });
     },
     onplay() {
       console.log('PLAYING');
     },
     onend() {
-
+      console.log('ENDED');
+      initPlayer(component, episodeIndex + 1);
     },
   });
   component.setState({ player });
@@ -127,10 +138,10 @@ function initPlayer(component) {
 function fillOutEpisodesInfo(podcast) {
   const episodes = podcast.items.slice(0);
   episodes.map(episode => {
-    episode.link = podcast.link
-    episode.title = podcast.title
-    episode.feedUrl = podcast.feedUrl
-    episode.description = podcast.description
+    episode.link = podcast.link;
+    episode.title = podcast.title;
+    episode.feedUrl = podcast.feedUrl;
+    episode.description = podcast.description;
     episode.itunesPodcast = podcast.itunes;
     return episode;
   });
