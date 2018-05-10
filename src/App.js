@@ -54,6 +54,10 @@ class App extends Component {
           .then(podcasts => component.setState({
             podcasts,
             episodes: podcasts.map(episode => episode.enclosure.url),
+            currentEpisode: {
+              index: 0,
+              url: podcasts[0].enclosure.url,
+            },
           }))
           .then(episodes => initPlayer(component))
           .catch(console.error);
