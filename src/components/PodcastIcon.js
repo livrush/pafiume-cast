@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 const PodcastIcon = ({ podcast, handleClick }) => (
   <li className="podcast-icon" onClick={() => handleClick(podcast)}>
@@ -10,8 +11,9 @@ const PodcastListItem = ({ podcast, handleClick }) => (
   <li className="podcast-list-item" onClick={() => handleClick(podcast)}>
     <img title={podcast.title} src={podcast.itunesPodcast.image} alt={podcast.artistName} />
     <div className="podcast-info">
-      <b>{ podcast.name }</b>
+      <p><b>{ podcast.name }</b></p>
       <p>{ podcast.title }</p>
+      <p>{ moment().millisecond(podcast.enclosure.length).format('h:mm:ss') }</p>
     </div>
   </li>
 );
