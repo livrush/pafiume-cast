@@ -34,10 +34,7 @@ class App extends Component {
     console.log(color)
     component.getPodcasts();
     const body = document.getElementsByTagName('body')[0];
-    body.style['background-color'] = color.hues[0];
-    body.style['background-image'] = `linear-gradient(45deg, ${color.hues[1]} 25%, transparent 25%), linear-gradient(-45deg, ${color.hues[1]} 25%, transparent 25%), linear-gradient(45deg, transparent 75%, ${color.hues[1]} 75%), linear-gradient(-45deg, transparent 75%, ${color.hues[1]} 75%)`;
-    body.style['background-size'] = '20vw 20vw';
-    body.style['background-position'] = '0 0, 0 10vw, 10vw -10vw, -10vw 0px';
+    body.style['background-color'] = color.hues[2];
   }
 
   getPodcasts() {
