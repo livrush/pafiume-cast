@@ -14,19 +14,24 @@ body {
   padding-bottom: calc(100vw / 5);
 }
 
-
 .podcast-controls,
 .podcast-control,
 .podcast-list-item,
 .podcast-icon,
 .podcast-list-item img,
-.podcast-icon img  {
+.podcast-icon img {
   height: calc(100vw / 5);
   width: calc(100vw / 5);
 }
 
 .podcast-list-item {
   width: 100vw;
+  display: flex;
+}
+
+.podcast-info {
+  flex-grow: 2;
+  text-align: left;
 }
 
 .podcast-control,
@@ -54,6 +59,8 @@ body {
   color: white;
 }
 
+
+.podcast-info,
 .podcast-control.info {
   display: flex;
   flex-direction: column;
@@ -64,9 +71,12 @@ body {
   padding-left: 20px;
 }
 
+
+.podcast-list-item > p,
 .podcast-control.info > p {
   margin: 0;
   text-align: left;
+  white-space: nowrap;
 }
 
 .podcast-control.play {
@@ -92,11 +102,15 @@ body {
 
   .podcast-controls,
   .podcast-control,
-  .podcast-icon {
+  .podcast-list-item,
+  .podcast-icon,
+  .podcast-list-item img,
+  .podcast-icon img {
     height: calc(100vw / 6);
     width: calc(100vw / 6);
   }
 
+  .podcast-list-item,
   .podcast-controls {
     width: 100vw;
   }
@@ -104,7 +118,6 @@ body {
 
 @media screen and (min-width: 700px) {
   body {
-    /* background-size: 28.57vw; */
     background-size: calc(100vw / 3.5);
   }
 
@@ -114,12 +127,16 @@ body {
 
   .podcast-controls,
   .podcast-control,
-  .podcast-icon {
+  .podcast-icon,
+  .podcast-list-item,
+  .podcast-list-item img,
+  .podcast-icon img {
     height: calc(100vw / 7);
     width: calc(100vw / 7);
   }
 
-  .podcast-controls {
+  .podcast-controls,
+  .podcast-list-item {
     width: 100vw;
   }
 }
@@ -135,12 +152,16 @@ body {
 
   .podcast-controls,
   .podcast-control,
-  .podcast-icon {
+  .podcast-icon,
+  .podcast-list-item,
+  .podcast-list-item img,
+  .podcast-icon img {
     height: calc(100vw / 8);
     width: calc(100vw / 8);
   }
 
-  .podcast-controls {
+  .podcast-controls,
+  .podcast-list-item {
     width: 100vw;
   }
 }
@@ -156,12 +177,16 @@ body {
 
   .podcast-controls,
   .podcast-control,
-  .podcast-icon {
+  .podcast-icon,
+  .podcast-list-item,
+  .podcast-list-item img,
+  .podcast-icon img {
     height: calc(100vw / 10);
     width: calc(100vw / 10);
   }
 
-  .podcast-controls {
+  .podcast-controls,
+  .podcast-list-item {
     width: 100vw;
   }
 }
@@ -177,12 +202,16 @@ body {
 
   .podcast-controls,
   .podcast-control,
-  .podcast-icon {
+  .podcast-icon,
+  .podcast-list-item,
+  .podcast-list-item img,
+  .podcast-icon img {
     height: calc(100vw / 12);
     width: calc(100vw / 12);
   }
 
-  .podcast-controls {
+  .podcast-controls,
+  .podcast-list-item {
     width: 100vw;
   }
 }
