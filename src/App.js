@@ -6,7 +6,7 @@ import colors from 'pafiume-colors';
 
 import './App.css';
 import './components/PodcastIcon.js';
-import PodcastIcon from './components/PodcastIcon.js';
+import { PodcastIcon, PodcastListItem } from './components/PodcastIcon.js';
 import PodcastControls from './components/PodcastControls.js';
 
 class App extends Component {
@@ -136,7 +136,7 @@ class App extends Component {
     const { buffering, color, currentEpisode, podcasts, playing } = this.state;
     const { toggleTrackPlay, onClickPodcast } = this;
     const podcastComponents = podcasts.map((podcast) => {
-      return (<PodcastIcon key={podcast.guid} podcast={podcast} handleClick={onClickPodcast} />);
+      return (<PodcastListItem key={podcast.guid} podcast={podcast} handleClick={onClickPodcast} />);
     });
 
     return (
