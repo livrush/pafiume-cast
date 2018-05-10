@@ -1,6 +1,4 @@
 import React from 'react';
-// import PodcastTogglePlay from './podcastControls/PodcastTogglePlay.js';
-// import PodcastToggleTime from './podcastControls/PodcastToggleTime.js';
 
 const PodcastEpisodeInfo = ({ episode }) => (
   <li className="podcast-control info">
