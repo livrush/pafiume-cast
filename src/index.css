@@ -3,36 +3,36 @@ body {
   padding: 0;
   font-family: sans-serif;
   background-image: url('./check.svg');
-  background-size: 20vw;
+  background-size: calc(100vw / 2.5);
 }
-
-
 
 .podcasts {
   padding: 0;
   display: flex;
   flex-wrap: wrap;
   margin: 0;
-  padding-bottom: 20vw;
+  padding-bottom: calc(100vw / 5);
 }
 
 
 .podcast-controls,
 .podcast-control,
-.podcast-icon {
-  height: 20vw;
-  width: 20vw;
+.podcast-list-item,
+.podcast-icon,
+.podcast-list-item img,
+.podcast-icon img  {
+  height: calc(100vw / 5);
+  width: calc(100vw / 5);
+}
+
+.podcast-list-item {
+  width: 100vw;
 }
 
 .podcast-control,
 .podcast-icon {
   list-style: none;
   cursor: pointer;
-}
-
-.podcast-icon img {
-  height: 100%;
-  width: 100%;
 }
 
 .podcast-controls {
@@ -82,15 +82,19 @@ body {
 }
 
 @media screen and (min-width: 500px) {
+  body {
+    background-size: calc(100vw / 3);
+  }
+
   .podcasts {
-    padding-bottom: 16.666vw;
+    padding-bottom: calc(100vw / 6);
   }
 
   .podcast-controls,
   .podcast-control,
   .podcast-icon {
-    height: 16.666vw;
-    width: 16.666vw;
+    height: calc(100vw / 6);
+    width: calc(100vw / 6);
   }
 
   .podcast-controls {
@@ -99,15 +103,20 @@ body {
 }
 
 @media screen and (min-width: 700px) {
+  body {
+    /* background-size: 28.57vw; */
+    background-size: calc(100vw / 3.5);
+  }
+
   .podcasts {
-    padding-bottom: 14.285vw;
+    padding-bottom: calc(100vw / 7);
   }
 
   .podcast-controls,
   .podcast-control,
   .podcast-icon {
-    height: 14.285vw;
-    width: 14.285vw;
+    height: calc(100vw / 7);
+    width: calc(100vw / 7);
   }
 
   .podcast-controls {
@@ -116,15 +125,19 @@ body {
 }
 
 @media screen and (min-width: 900px) {
+  body {
+    background-size: calc(100vw / 4);
+  }
+
   .podcasts {
-    padding-bottom: 12.5vw;
+    padding-bottom: calc(100vw / 8);
   }
 
   .podcast-controls,
   .podcast-control,
   .podcast-icon {
-    height: 12.5vw;
-    width: 12.5vw;
+    height: calc(100vw / 8);
+    width: calc(100vw / 8);
   }
 
   .podcast-controls {
@@ -133,15 +146,19 @@ body {
 }
 
 @media screen and (min-width: 1100px) {
+  body {
+    background-size: calc(100vw / 5);
+  }
+
   .podcasts {
-    padding-bottom: 10vw;
+    padding-bottom: calc(100vw / 10);
   }
 
   .podcast-controls,
   .podcast-control,
   .podcast-icon {
-    height: 10vw;
-    width: 10vw;
+    height: calc(100vw / 10);
+    width: calc(100vw / 10);
   }
 
   .podcast-controls {
@@ -150,15 +167,19 @@ body {
 }
 
 @media screen and (min-width: 1300px) {
+  body {
+    background-size: calc(100vw / 6);
+  }
+
   .podcasts {
-    padding-bottom: 8.333vw;
+    padding-bottom: calc(100vw / 12);
   }
 
   .podcast-controls,
   .podcast-control,
   .podcast-icon {
-    height: 8.333vw;
-    width: 8.333vw;
+    height: calc(100vw / 12);
+    width: calc(100vw / 12);
   }
 
   .podcast-controls {
