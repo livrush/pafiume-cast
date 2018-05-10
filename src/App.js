@@ -39,7 +39,7 @@ class App extends Component {
     const { color } = component.state;
     component.getPodcasts();
     const body = document.getElementsByTagName('body')[0];
-    body.style['background-color'] = color.hues[2];
+    body.style['background-color'] = color.hues[1];
   }
 
   getPodcasts() {
@@ -133,7 +133,7 @@ class App extends Component {
   }
 
   render() {
-    const { buffering, currentEpisode, podcasts, playing } = this.state;
+    const { buffering, color, currentEpisode, podcasts, playing } = this.state;
     const { toggleTrackPlay, onClickPodcast } = this;
     const podcastComponents = podcasts.map((podcast) => {
       return (<PodcastIcon key={podcast.guid} podcast={podcast} handleClick={onClickPodcast} />);
@@ -144,7 +144,7 @@ class App extends Component {
         <ul className="podcasts">
           { podcastComponents }
         </ul>
-        <PodcastControls episode={currentEpisode} buffering={buffering} playing={playing} togglePlay={toggleTrackPlay} />
+        <PodcastControls color={color} episode={currentEpisode} buffering={buffering} playing={playing} togglePlay={toggleTrackPlay} />
       </div>
     );
   }
