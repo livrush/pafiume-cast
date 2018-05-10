@@ -9,8 +9,6 @@ import './components/PodcastIcon.js';
 import PodcastIcon from './components/PodcastIcon.js';
 import PodcastControls from './components/PodcastControls.js';
 
-console.log(colors);
-
 class App extends Component {
   constructor() {
     super();
@@ -20,6 +18,10 @@ class App extends Component {
       player: null,
       playing: false,
       color: colors.random(),
+      currentEpisode: {
+        index: 0,
+        url: null,
+      },
     };
     this.toggleTrackPlay = this.toggleTrackPlay.bind(this);
   }
@@ -31,7 +33,6 @@ class App extends Component {
   componentWillMount() {
     const component = this;
     const { color } = component.state;
-    console.log(color)
     component.getPodcasts();
     const body = document.getElementsByTagName('body')[0];
     body.style['background-color'] = color.hues[2];
@@ -49,9 +50,12 @@ class App extends Component {
           .then(responses => responses.map(response => { response.items = response.items.slice(0, 5); return response; }))
           .then(responses => responses.map(fillOutEpisodesInfo))
           .then(responses => responses.reduce((acc, res) => acc.concat(res), []))
-          .then(episodes => episodes.sort((a, b) => new Date(b.isoDate) - new Date(a.isoDate)))
-          .then(episodes => initPlayer(episodes, component))
-          .then(podcasts => component.setState({ podcasts }))
+          .then(podcasts => podcasts.sort((a, b) => new Date(b.isoDate) - new Date(a.isoDate)))
+          .then(podcasts => component.setState({
+            podcasts,
+            episodes: podcasts.map(episode => episode.enclosure.url),
+          }))
+          .then(episodes => initPlayer(component))
           .catch(console.error);
       })
   }
@@ -96,20 +100,24 @@ export default App;
 //   response => { response.items = response.items.slice(0, 5); return response; }
 // }
 
-function initPlayer(episodes, component) {
+function initPlayer(component) {
   const CORS_PROXY = "https://cors-anywhere.herokuapp.com/"
-  const tracks = episodes.map(episode => CORS_PROXY + episode.enclosure.url);
+  const tracks = component.state.episodes.map(episode => CORS_PROXY + episode);
   const player = new Howl({
     src: tracks,
     onload() {
       console.log('load');
+      console.log(component.state);
     },
     onplay() {
       console.log('PLAYING');
     },
+    onend() {
+
+    },
   });
   component.setState({ player });
-  return episodes;
+  return component;
 }
 
 function fillOutEpisodesInfo(podcast) {
