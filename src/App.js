@@ -14,6 +14,7 @@ class App extends Component {
     super();
     this.state = {
       name: 'Pafiume-Cast',
+      buffering: false,
       podcasts: [],
       player: null,
       playing: false,
@@ -23,6 +24,7 @@ class App extends Component {
         url: null,
       },
     };
+    this.onClickPodcast = this.onClickPodcast.bind(this);
     this.toggleTrackPlay = this.toggleTrackPlay.bind(this);
   }
 
@@ -40,13 +42,12 @@ class App extends Component {
 
   getPodcasts() {
     let parser = new Parser();
-    const CORS_PROXY = "https://cors-anywhere.herokuapp.com/"
+    const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/'
     const component = this;
     axios('/rss-feeds.txt')
       .then(({ data }) => data.split('\n'))
-      .then(rssFeedUrls => {
-        const rssFeedRequests = rssFeedUrls.map((feedUrl) => parser.parseURL(CORS_PROXY + feedUrl));
-        Promise.all(rssFeedRequests)
+      .then(rssFeedUrls => rssFeedUrls.map((feedUrl) => parser.parseURL(CORS_PROXY + feedUrl)))
+      .then(rssFeedRequests => { Promise.all(rssFeedRequests)
           .then(responses => responses.map(response => { response.items = response.items.slice(0, 5); return response; }))
           .then(responses => responses.map(fillOutEpisodesInfo))
           .then(responses => responses.reduce((acc, res) => acc.concat(res), []))
@@ -61,26 +62,35 @@ class App extends Component {
           }))
           .then(episodes => this.initPlayer(0))
           .catch(console.error);
-      })
+      });
   }
 
   initPlayer(index) {
     const component = this;
-    const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
-    const { episodes, currentEpisode } = component.state;
+    const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
+    const { episodes, currentEpisode, player, playing } = component.state;
+    if (player) player.unload();
     const episodeIndex = index ? index : currentEpisode.index + 1;
     const track = episodes[episodeIndex];
-    // const tracks = component.state.episodes.map(episode => CORS_PROXY + episode);
-    const player = new Howl({
+    component.setState({ buffering: true });
+    const newPlayer = new Howl({
       src: [ CORS_PROXY + track ],
+      autoplay: playing,
       onload() {
         console.warn('LOADED');
         component.setState({
+          buffering: false,
           currentEpisode: {
             index: episodeIndex,
             url: track,
           },
         });
+      },
+      onloaderror(id, error) {
+        console.error('LOAD ERROR:', error);
+      },
+      onplayerror(id, error) {
+        console.error('PLAY ERROR:', error);
       },
       onplay() {
         console.log('PLAYING');
@@ -90,7 +100,7 @@ class App extends Component {
         component.initPlayer(component, episodeIndex + 1);
       },
     });
-    component.setState({ player });
+    component.setState({ player: newPlayer });
     return component;
   }
 
@@ -106,13 +116,17 @@ class App extends Component {
     this.setState({ playing: !playing });
   }
 
-  onClickPodcast() {}
+  onClickPodcast(value) {
+    console.warn('PODCAST CLICK:', value);
+    const { currentEpisode } = this.state;
+    this.initPlayer(currentEpisode.index + 1);
+  }
 
   render() {
-    const { podcasts, playing } = this.state;
-    const { test, toggleTrackPlay } = this;
+    const { buffering, podcasts, playing } = this.state;
+    const { test, toggleTrackPlay, onClickPodcast } = this;
     const podcastComponents = podcasts.map((podcast) => {
-      return (<PodcastIcon key={podcast.guid} podcast={podcast} handleClick={test} />);
+      return (<PodcastIcon key={podcast.guid} podcast={podcast} handleClick={onClickPodcast} />);
     });
 
     return (
@@ -120,7 +134,7 @@ class App extends Component {
         <ul className="podcasts">
           { podcastComponents }
         </ul>
-        <PodcastControls playing={playing} togglePlay={toggleTrackPlay} />
+        <PodcastControls buffering={buffering} playing={playing} togglePlay={toggleTrackPlay} />
       </div>
     );
   }
