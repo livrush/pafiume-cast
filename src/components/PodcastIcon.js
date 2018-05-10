@@ -13,6 +13,7 @@ const PodcastListItem = ({ podcast, handleClick }) => (
     <div className="podcast-info">
       <p><b>{ podcast.name }</b></p>
       <p>{ podcast.title }</p>
+      {/* TODO: fix this time, it's super wrong */}
       <p>{ moment().millisecond(podcast.enclosure.length).format('h:mm:ss') }</p>
     </div>
   </li>
