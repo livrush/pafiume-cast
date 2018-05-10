@@ -72,7 +72,7 @@ body {
 }
 
 
-.podcast-list-item > p,
+.podcast-info > p,
 .podcast-control.info > p {
   margin: 0;
   text-align: left;
