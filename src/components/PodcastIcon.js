@@ -7,14 +7,12 @@ const PodcastIcon = ({ podcast, handleClick }) => (
   </li>
 );
 
-const PodcastListItem = ({ podcast, handleClick }) => (
-  <li className="podcast-list-item" onClick={() => handleClick(podcast)}>
+const PodcastListItem = ({ podcast, handleClick, style }) => (
+  <li className="podcast-list-item" onClick={() => handleClick(podcast)} style={style}>
     <img title={podcast.title} src={podcast.itunesPodcast.image} alt={podcast.artistName} />
     <div className="podcast-info">
       <p><b>{ podcast.name }</b></p>
       <p>{ podcast.title }</p>
-      {/* TODO: fix this time, it's super wrong */}
-      <p>{ moment().millisecond(podcast.enclosure.length).format('h:mm:ss') }</p>
     </div>
   </li>
 );
