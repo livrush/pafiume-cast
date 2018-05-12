@@ -1,6 +1,9 @@
+/* global RSSParser */
+import 'rss-parser/dist/rss-parser.min.js';
+
 import React, { Component } from 'react';
 import axios from 'axios';
-import Parser from 'rss-parser';
+// import Parser from 'rss-parser';
 import { Howl } from 'howler';
 import colors from 'pafiume-colors';
 
@@ -9,6 +12,8 @@ import './components/PodcastIcon.js';
 import { PodcastIcon, PodcastListItem } from './components/PodcastIcon.js';
 import PodcastControls from './components/PodcastControls.js';
 
+
+// let Parser = new RSSParser();
 class App extends Component {
   constructor() {
     super();
@@ -43,7 +48,7 @@ class App extends Component {
   }
 
   getPodcasts() {
-    let parser = new Parser();
+    let parser = new RSSParser();
     const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/'
     const component = this;
     axios('/rss-feeds.txt')
