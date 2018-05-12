@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 const PodcastEpisodeInfo = ({ episode }) => (
   <li className="podcast-control info">
@@ -33,34 +33,19 @@ const PodcastTogglePlay = ({ togglePlay, playing }) => playing ? (
     <i className="fas fa-play"></i>
   </li>
 );
-class PodcastControls extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  componentDidMount() {
-    const { color } = this.props;
-    const el = document.getElementById('podcast-controls');
-    // el.style['background-color'] = color.hues[3];
-  }
-
-  render() {
-    const { buffering, color, episode, togglePlay, playing } = this.props;
-    return (
-      <ul
-        id="podcast-controls"
-        className="podcast-controls"
-        style={{
-          backgroundColor: color.hues[3],
-        }}
-      >
-        <PodcastBufferingIcon buffering={buffering} />
-        <PodcastEpisodeInfo episode={episode} />
-        <PodcastToggleTime togglePlay={togglePlay} />
-        <PodcastTogglePlay togglePlay={togglePlay} playing={playing} />
-      </ul>
-    );
-  }
-}
+const PodcastControls = ({ buffering, color, episode, togglePlay, playing }) => (
+  <ul
+    id="podcast-controls"
+    className="podcast-controls"
+    style={{
+      backgroundColor: color.hues[3],
+    }}
+  >
+    <PodcastBufferingIcon buffering={buffering} />
+    <PodcastEpisodeInfo episode={episode} />
+    <PodcastToggleTime togglePlay={togglePlay} />
+    <PodcastTogglePlay togglePlay={togglePlay} playing={playing} />
+  </ul>
+);
 
 export default PodcastControls;
