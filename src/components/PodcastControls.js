@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 const PodcastEpisodeInfo = ({ episode }) => (
   <li className="podcast-control info">
     {/* <p>{ episode.index }</p> */}
-    <b>{ episode.name }</b>
+    <p><b>{ episode.name }</b></p>
     <p>{ episode.title }</p>
   </li>
 );
@@ -41,17 +41,17 @@ class PodcastControls extends Component {
   componentDidMount() {
     const { color } = this.props;
     const el = document.getElementById('podcast-controls');
-    el.style['background-color'] = color.hues[3];
+    // el.style['background-color'] = color.hues[3];
   }
 
   render() {
-    const { buffering, episode, togglePlay, playing } = this.props;
+    const { buffering, color, episode, togglePlay, playing } = this.props;
     return (
       <ul
         id="podcast-controls"
         className="podcast-controls"
         style={{
-          color: 'blue',
+          backgroundColor: color.hues[3],
         }}
       >
         <PodcastBufferingIcon buffering={buffering} />
