@@ -9,8 +9,8 @@ import colors from 'pafiume-colors';
 import './App.css';
 import './components/PodcastIcon.js';
 import RSS_FEEDS from './rss-feeds'
-import { PodcastIcon, PodcastListItem } from './components/PodcastIcon.js';
 import PodcastControls from './components/PodcastControls.js';
+import PodcastList from './components/PodcastList';
 
 // let Parser = new RSSParser();
 class App extends Component {
@@ -136,21 +136,10 @@ class App extends Component {
   render() {
     const { buffering, color, currentEpisode, podcasts, playing } = this.state;
     const { toggleTrackPlay, onClickPodcast } = this;
-    const podcastComponents = podcasts.map((podcast, index) => {
-      const style = index % 2 ? {
-        backgroundColor: color.hues[1],
-      } : {
-        backgroundColor: color.hues[1],
-        backgroundImage: 'url(./check.png)'
-      };
-      return (<PodcastIcon style={style} key={podcast.guid} podcast={podcast} handleClick={onClickPodcast} />);
-    });
 
     return (
       <div className="App">
-        <ul className="podcasts">
-          { podcastComponents }
-        </ul>
+        <PodcastList podcasts={podcasts} onClickPodcast={onClickPodcast} color={color} />
         <PodcastControls color={color} episode={currentEpisode} buffering={buffering} playing={playing} togglePlay={toggleTrackPlay} />
       </div>
     );
