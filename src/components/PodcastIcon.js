@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 
 const PodcastIcon = ({ podcast, handleClick }) => (
   <li className="podcast-icon" onClick={() => handleClick(podcast)}>
