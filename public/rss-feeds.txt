@@ -14,3 +14,4 @@ http://www.podcastone.com/podcast?categoryID2=1060
 http://fictional.libsyn.com/rss
 http://talkingsimpsons.libsyn.com/rss
 http://whatacartoonfeed.libsyn.com/rss
+https://designbetter.libsyn.com/rss
