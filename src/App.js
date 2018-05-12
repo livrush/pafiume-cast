@@ -2,16 +2,15 @@
 import 'rss-parser/dist/rss-parser.min.js';
 
 import React, { Component } from 'react';
-import axios from 'axios';
 // import Parser from 'rss-parser';
 import { Howl } from 'howler';
 import colors from 'pafiume-colors';
 
 import './App.css';
 import './components/PodcastIcon.js';
+import RSS_FEEDS from './rss-feeds'
 import { PodcastIcon, PodcastListItem } from './components/PodcastIcon.js';
 import PodcastControls from './components/PodcastControls.js';
-
 
 // let Parser = new RSSParser();
 class App extends Component {
@@ -51,27 +50,24 @@ class App extends Component {
     let parser = new RSSParser();
     const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/'
     const component = this;
-    axios('/rss-feeds.txt')
-      .then(({ data }) => data.split('\n'))
-      .then(rssFeedUrls => rssFeedUrls.map((feedUrl) => parser.parseURL(CORS_PROXY + feedUrl)))
-      .then(rssFeedRequests => { Promise.all(rssFeedRequests)
-          .then(responses => responses.map(response => { response.items = response.items.slice(0, 5); return response; }))
-          .then(responses => responses.map(fillOutEpisodesInfo))
-          .then(responses => responses.reduce((acc, res) => acc.concat(res), []))
-          .then(podcasts => podcasts.sort((a, b) => new Date(b.isoDate) - new Date(a.isoDate)))
-          .then(podcasts => component.setState({
-            podcasts,
-            episodes: podcasts,
-            currentEpisode: {
-              index: 0,
-              name: podcasts[0].name,
-              title: podcasts[0].title,
-              url: podcasts[0].enclosure.url,
-            },
-          }))
-          .then(episodes => this.initPlayer(0))
-          .catch(console.error);
-      });
+    const requests = RSS_FEEDS.map((feedUrl) => parser.parseURL(CORS_PROXY + feedUrl));
+    Promise.all(requests)
+      .then(responses => responses.map(response => { response.items = response.items.slice(0, 5); return response; }))
+      .then(responses => responses.map(fillOutEpisodesInfo))
+      .then(responses => responses.reduce((acc, res) => acc.concat(res), []))
+      .then(podcasts => podcasts.sort((a, b) => new Date(b.isoDate) - new Date(a.isoDate)))
+      .then(podcasts => component.setState({
+        podcasts,
+        episodes: podcasts,
+        currentEpisode: {
+          index: 0,
+          name: podcasts[0].name,
+          title: podcasts[0].title,
+          url: podcasts[0].enclosure.url,
+        },
+      }))
+      .then(episodes => this.initPlayer(0))
+      .catch(console.error);
   }
 
   initPlayer(index) {
