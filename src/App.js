@@ -135,8 +135,14 @@ class App extends Component {
   render() {
     const { buffering, color, currentEpisode, podcasts, playing } = this.state;
     const { toggleTrackPlay, onClickPodcast } = this;
-    const podcastComponents = podcasts.map((podcast) => {
-      return (<PodcastListItem key={podcast.guid} podcast={podcast} handleClick={onClickPodcast} />);
+    const podcastComponents = podcasts.map((podcast, index) => {
+      const style = index % 2 ? {
+        backgroundColor: color.hues[1],
+      } : {
+        backgroundColor: color.hues[1],
+        backgroundImage: 'url(./check.png)'
+      };
+      return (<PodcastListItem style={style} key={podcast.guid} podcast={podcast} handleClick={onClickPodcast} />);
     });
 
     return (
