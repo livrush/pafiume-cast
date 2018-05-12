@@ -143,7 +143,7 @@ class App extends Component {
         backgroundColor: color.hues[1],
         backgroundImage: 'url(./check.png)'
       };
-      return (<PodcastListItem style={style} key={podcast.guid} podcast={podcast} handleClick={onClickPodcast} />);
+      return (<PodcastIcon style={style} key={podcast.guid} podcast={podcast} handleClick={onClickPodcast} />);
     });
 
     return (
